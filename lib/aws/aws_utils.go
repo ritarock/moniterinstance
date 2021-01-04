@@ -45,11 +45,11 @@ func DescribeInstances(session *session.Session) *ec2.DescribeInstancesOutput {
 	return instances
 }
 
-func GetCloudWatch(session *session.Session, instanceId string) {
+func GetCloudWatch(session *session.Session, instanceId string, term int) {
 	svc := cloudwatch.New(session)
 	params := &cloudwatch.GetMetricStatisticsInput{
 		EndTime:    aws.Time(time.Now()),
-		StartTime:  aws.Time(time.Now().Add(time.Duration(1) * time.Hour * -1)),
+		StartTime:  aws.Time(time.Now().Add(time.Duration(term) * time.Minute * -1)),
 		MetricName: aws.String("CPUUtilization"),
 		Namespace:  aws.String("AWS/EC2"),
 		Period:     aws.Int64(60),

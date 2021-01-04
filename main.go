@@ -11,6 +11,7 @@ import (
 
 func main() {
 	var profile string
+	var term int
 
 	app := cli.App{
 		Name:  "moniterinstance",
@@ -22,12 +23,18 @@ func main() {
 				Value:       "default",
 				Destination: &profile,
 			},
+			&cli.IntFlag{
+				Name:        "term",
+				Usage:       "set StartTime",
+				Value:       60,
+				Destination: &term,
+			},
 		},
 		Action: func(c *cli.Context) error {
 			var instanceName string
 			if c.NArg() > 0 {
 				instanceName = c.Args().Get(0)
-				action.Run(profile, instanceName)
+				action.Run(profile, instanceName, term)
 			} else {
 				fmt.Println("Instance is not selected")
 			}

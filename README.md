@@ -20,5 +20,6 @@ COMMANDS:
 
 GLOBAL OPTIONS:
    --profile value  set aws profile (default: "default")
+   --term value     set StartTime (default: 60)
    --help, -h       show help (default: false)
 ```

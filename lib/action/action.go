@@ -7,7 +7,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/ec2"
 )
 
-func Run(profile, instanceName string) {
+func Run(profile, instanceName string, term int) {
 	sess := aws.Session(profile)
 	instances := aws.DescribeInstances(sess)
 	foundInstance := find(instances, instanceName)
@@ -15,7 +15,7 @@ func Run(profile, instanceName string) {
 	if foundInstance == nil {
 		fmt.Println("Instances not found")
 	} else {
-		aws.GetCloudWatch(sess, *foundInstance.InstanceId)
+		aws.GetCloudWatch(sess, *foundInstance.InstanceId, term)
 	}
 }
 
