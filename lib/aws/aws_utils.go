@@ -3,6 +3,8 @@ package aws
 import (
 	"fmt"
 	"log"
+	"sort"
+	"strconv"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -11,6 +13,20 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ec2"
 )
+
+type Bytime []*cloudwatch.Datapoint
+
+func (arr Bytime) Len() int {
+	return len(arr)
+}
+
+func (arr Bytime) Less(i, j int) bool {
+	return arr[i].Timestamp.Before(*arr[j].Timestamp)
+}
+
+func (arr Bytime) Swap(i, j int) {
+	arr[i], arr[j] = arr[j], arr[i]
+}
 
 func Session(profile string) *session.Session {
 	return session.Must(session.NewSessionWithOptions(session.Options{
@@ -56,5 +72,13 @@ func GetCloudWatch(session *session.Session, instanceId string) {
 		return
 	}
 
-	fmt.Println(resp)
+	var sortedResp Bytime = resp.Datapoints
+	sort.Sort(sortedResp)
+
+	loc, _ := time.LoadLocation("Asia/Tokyo")
+
+	for _, v := range sortedResp {
+		fmt.Println("Timestamp: " + v.Timestamp.In(loc).String())
+		fmt.Println("Maximum: " + strconv.FormatFloat(*v.Maximum, 'f', -1, 64))
+	}
 }
