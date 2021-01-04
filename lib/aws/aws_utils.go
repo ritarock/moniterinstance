@@ -79,6 +79,6 @@ func GetCloudWatch(session *session.Session, instanceId string, term int) {
 
 	for _, v := range sortedResp {
 		fmt.Println("Timestamp: " + v.Timestamp.In(loc).String())
-		fmt.Println("Maximum: " + strconv.FormatFloat(*v.Maximum, 'f', -1, 64))
+		fmt.Println("└──Maximum: " + strconv.FormatFloat(*v.Maximum, 'f', -1, 64))
 	}
 }
