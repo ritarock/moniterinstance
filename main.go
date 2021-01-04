@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"moniterinstance/lib/action"
 	"os"
 
 	"github.com/urfave/cli/v2"
@@ -26,7 +27,7 @@ func main() {
 			var instanceName string
 			if c.NArg() > 0 {
 				instanceName = c.Args().Get(0)
-				fmt.Println(instanceName)
+				action.Run(profile, instanceName)
 			} else {
 				fmt.Println("Instance is not selected")
 			}

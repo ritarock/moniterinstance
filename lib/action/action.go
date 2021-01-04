@@ -15,7 +15,7 @@ func Run(profile, instanceName string) {
 	if foundInstance == nil {
 		fmt.Println("Instances not found")
 	} else {
-		aws.GetCloudWatch(*foundInstance.InstanceId)
+		aws.GetCloudWatch(sess, *foundInstance.InstanceId)
 	}
 }
 

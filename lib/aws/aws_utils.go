@@ -14,17 +14,17 @@ import (
 	"github.com/aws/aws-sdk-go/service/ec2"
 )
 
-type Bytime []*cloudwatch.Datapoint
+type ByTime []*cloudwatch.Datapoint
 
-func (arr Bytime) Len() int {
+func (arr ByTime) Len() int {
 	return len(arr)
 }
 
-func (arr Bytime) Less(i, j int) bool {
+func (arr ByTime) Less(i, j int) bool {
 	return arr[i].Timestamp.Before(*arr[j].Timestamp)
 }
 
-func (arr Bytime) Swap(i, j int) {
+func (arr ByTime) Swap(i, j int) {
 	arr[i], arr[j] = arr[j], arr[i]
 }
 
@@ -72,7 +72,7 @@ func GetCloudWatch(session *session.Session, instanceId string) {
 		return
 	}
 
-	var sortedResp Bytime = resp.Datapoints
+	var sortedResp ByTime = resp.Datapoints
 	sort.Sort(sortedResp)
 
 	loc, _ := time.LoadLocation("Asia/Tokyo")
